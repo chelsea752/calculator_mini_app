@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماشین حساب اندروید (نسخه شبیه‌ساز دسکتاپ)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* قاب گوشی شبیه‌سازی شده */
+        .phone-frame {
+            width: 380px;
+            height: 720px;
+            background: #ffffff;
+            border-radius: 40px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 0 10px #1e293b;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* نوار بالای گوشی (Status Bar) */
+        .status-bar {
+            height: 35px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 22px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* هدر اپلیکیشن */
+        .app-header {
+            background: #2c3e50;
+            color: #ffffff;
+            padding: 16px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+            background-color: #f8fafc;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-field label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .input-field input {
+            height: 52px;
+            border-radius: 12px;
+            border: 2px solid #cbd5e1;
+            padding: 0 16px;
+            font-size: 18px;
+            outline: none;
+            direction: ltr;
+            text-align: center;
+            transition: all 0.2s ease;
+            background: #fff;
+            color: #0f172a;
+        }
+
+        .input-field input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        /* شبکه دکمه‌ها */
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        button {
+            height: 60px;
+            border-radius: 14px;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s ease, filter 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        .btn-add { background: #3b82f6; color: white; }
+        .btn-subtract { background: #6366f1; color: white; }
+        .btn-multiply { background: #8b5cf6; color: white; }
+        .btn-divide { background: #0ea5e9; color: white; }
+        
+        .btn-clear {
+            grid-column: span 2;
+            background: #ef4444;
+            color: white;
+            height: 48px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        /* کارت نمایش نتیجه */
+        .result-box {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 2px dashed #94a3b8;
+            padding: 20px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .result-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #059669;
+            direction: ltr;
+            display: inline-block;
+            word-break: break-all;
+        }
+
+        /* پیام اعلان خطا / Toast */
+        .toast {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>20:08</span>
+            <span>📶 🔋 100%</span>
+        </div>
+
+        <!-- App Bar -->
+        <div class="app-header">ماشین حساب اندروید</div>
+
+        <!-- App Body -->
+        <div class="container">
+            <div class="input-group">
+                <div class="input-field">
+                    <label>عدد اول:</label>
+                    <input type="number" id="num1" placeholder="مثال: 25" step="any" autofocus>
+                </div>
+
+                <div class="input-field">
+                    <label>عدد دوم:</label>
+                    <input type="number" id="num2" placeholder="مثال: 5" step="any">
+                </div>
+            </div>
+
+            <div class="grid-buttons">
+                <button class="btn-add" onclick="calculate('+')">
+                    جمع <span>(+)</span>
+                </button>
+                <button class="btn-subtract" onclick="calculate('-')">
+                    تفریق <span>(-)</span>
+                </button>
+                <button class="btn-multiply" onclick="calculate('*')">
+                    ضرب <span>(×)</span>
+                </button>
+                <button class="btn-divide" onclick="calculate('/')">
+                    تقسیم <span>(÷)</span>
+                </button>
+                <button class="btn-clear" onclick="clearFields()">
+                    پاک کردن
+                </button>
+            </div>
+
+            <div class="result-box">
+                <div class="result-label">نتیجه محاسبه:</div>
+                <div class="result-value" id="resultDisplay">0</div>
+            </div>
+        </div>
+
+        <!-- شبیه‌ساز پیام Toast اندروید -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script>
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        function calculate(op) {
+            const input1 = document.getElementById('num1').value.trim();
+            const input2 = document.getElementById('num2').value.trim();
+            const resultDisplay = document.getElementById('resultDisplay');
+
+            if (input1 === '' || input2 === '') {
+                showToast("لطفاً هر دو عدد را وارد کنید!");
+                return;
+            }
+
+            const n1 = parseFloat(input1);
+            const n2 = parseFloat(input2);
+            let res = 0;
+
+            switch (op) {
+                case '+':
+                    res = n1 + n2;
+                    break;
+                case '-':
+                    res = n1 - n2;
+                    break;
+                case '*':
+                    res = n1 * n2;
+                    break;
+                case '/':
+                    if (n2 === 0) {
+                        showToast("خطا: تقسیم بر صفر امکان‌پذیر نیست!");
+                        return;
+                    }
+                    res = n1 / n2;
+                    break;
+            }
+
+            // گرد کردن ارقام اعشاری اضافی تا ۴ رقم
+            if (!Number.isInteger(res)) {
+                res = parseFloat(res.toFixed(4));
+            }
+
+            resultDisplay.textContent = res;
+        }
+
+        function clearFields() {
+            document.getElementById('num1').value = '';
+            document.getElementById('num2').value = '';
+            document.getElementById('resultDisplay').textContent = '0';
+            document.getElementById('num1').focus();
+            showToast("فیلدها پاک شدند");
+        }
+    </script>
+</body>
+</html>
