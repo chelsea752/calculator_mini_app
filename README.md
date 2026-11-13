@@ -47,7 +47,7 @@ SimpleCalculator/
 ## 🚀 نحوه اجرا در Android Studio
 1. این مخزن را کلون کنید:
    ```bash
-   git clone https://github.com/chelsea752/SimpleCalculator.git
+   git clone https://github.com/chelsea752/calculator_mini_app.git
    ```
 2. نرم‌افزار **Android Studio** را باز کنید و گزینه **Open** را انتخاب نمایید.
 3. پوشه پروژه را انتخاب کنید و منتظر بمانید تا فرایند **Gradle Sync** انجام شود.
