@@ -3,112 +3,312 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center"
-    android:background="#F5F6FA">
+    android:background="#1E1E2E"
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ماشین حساب ساده"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="#2C3E50"
-        android:layout_marginBottom="32dp" />
-
-    <!-- فیلد عدد اول -->
-    <EditText
-        android:id="@+id/etFirstNumber"
+    <!-- صفحه نمایش ماشین حساب -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:hint="عدد اول را وارد کنید"
-        android:inputType="numberDecimal|numberSigned"
-        android:padding="12dp"
-        android:background="@android:drawable/editbox_background"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:orientation="vertical"
+        android:gravity="bottom|end"
+        android:padding="16dp">
+
+        <!-- متن عملیات قبلی (مثال: 12 +) -->
+        <TextView
+            android:id="@+id/tvExpression"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#A6ADC8"
+            android:textSize="22sp"
+            android:maxLines="1"
+            android:layout_marginBottom="8dp" />
+
+        <!-- عدد جاری یا نتیجه اصلی -->
+        <TextView
+            android:id="@+id/tvDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#CDD6F4"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:maxLines="1" />
+    </LinearLayout>
+
+    <!-- خط جداکننده -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#313244"
         android:layout_marginBottom="16dp" />
 
-    <!-- فیلد عدد دوم -->
-    <EditText
-        android:id="@+id/etSecondNumber"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:hint="عدد دوم را وارد کنید"
-        android:inputType="numberDecimal|numberSigned"
-        android:padding="12dp"
-        android:background="@android:drawable/editbox_background"
-        android:layout_marginBottom="24dp" />
-
-    <!-- دکمه‌های جمع و تفریق -->
+    <!-- بخش دکمه‌های ماشین حساب -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginBottom="12dp">
+        android:layout_height="0dp"
+        android:layout_weight="2.8"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
+        <!-- ردیف ۱: C , ⌫ , % , ÷ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="جمع (+)"
-            android:textSize="18sp"
-            android:layout_marginEnd="6dp" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnSubtract"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
+            <Button
+                android:id="@+id/btnC"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="C"
+                android:textSize="22sp"
+                android:textColor="#F38BA8"
+                android:backgroundTint="#313244" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="⌫"
+                android:textSize="22sp"
+                android:textColor="#FAB387"
+                android:backgroundTint="#313244" />
+
+            <Button
+                android:id="@+id/btnPercent"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="%"
+                android:textSize="22sp"
+                android:textColor="#89B4FA"
+                android:backgroundTint="#313244" />
+
+            <Button
+                android:id="@+id/btnDivide"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="÷"
+                android:textSize="26sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#CBA6F7" />
+        </LinearLayout>
+
+        <!-- ردیف ۲: 7 , 8 , 9 , × -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="تفریق (-)"
-            android:textSize="18sp"
-            android:layout_marginStart="6dp" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn7"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="7"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btn8"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="8"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btn9"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="9"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btnMultiply"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="×"
+                android:textSize="26sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#CBA6F7" />
+        </LinearLayout>
+
+        <!-- ردیف ۳: 4 , 5 , 6 , - -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn4"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="4"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btn5"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="5"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btn6"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="6"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btnSubtract"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="-"
+                android:textSize="26sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#CBA6F7" />
+        </LinearLayout>
+
+        <!-- ردیف ۴: 1 , 2 , 3 , + -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn1"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="1"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btn2"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="2"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btn3"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="3"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="+"
+                android:textSize="26sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#CBA6F7" />
+        </LinearLayout>
+
+        <!-- ردیف ۵: 0 , . , = -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn0"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_margin="4dp"
+                android:text="0"
+                android:textSize="22sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btnDot"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="."
+                android:textSize="24sp"
+                android:backgroundTint="#45475A" />
+
+            <Button
+                android:id="@+id/btnEquals"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="="
+                android:textSize="26sp"
+                android:textColor="#1E1E2E"
+                android:backgroundTint="#A6E3A1" />
+        </LinearLayout>
+
     </LinearLayout>
-
-    <!-- دکمه‌های ضرب و تقسیم -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginBottom="16dp">
-
-        <Button
-            android:id="@+id/btnMultiply"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:text="ضرب (×)"
-            android:textSize="18sp"
-            android:layout_marginEnd="6dp" />
-
-        <Button
-            android:id="@+id/btnDivide"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:text="تقسیم (÷)"
-            android:textSize="18sp"
-            android:layout_marginStart="6dp" />
-    </LinearLayout>
-
-    <!-- دکمه پاک‌کردن -->
-    <Button
-        android:id="@+id/btnClear"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="پاک کردن"
-        android:backgroundTint="#E74C3C"
-        android:layout_marginBottom="28dp" />
-
-    <!-- نمایش نتیجه -->
-    <TextView
-        android:id="@+id/tvResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="نتیجه: 0"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#16A085" />
 
 </LinearLayout>
